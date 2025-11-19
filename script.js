@@ -1,6 +1,6 @@
 const carte = document.querySelectorAll('.carta');
 const modale = document.querySelector('modal');
-const giocaDiNuovo = modale.querySelector('giocaDiNuovo');
+const giocaDiNuovo = modale.querySelector('.giocaDiNuovo');
 
 let cartaGirata = false;
 let bloccaBoard = false;
@@ -35,8 +35,8 @@ function controllaCorrispondenza () {
 }
 
 function disabilitaCarte () {
-    primaCarta.removeEventListner('click', giraCarta);
-    secondaCarta.removeEventListner('click', giraCarta);
+    primaCarta.removeEventListener('click', giraCarta);
+    secondaCarta.removeEventListener('click', giraCarta);
 
     resetBoard();
     carteTerminate();
