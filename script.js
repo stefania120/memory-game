@@ -53,6 +53,14 @@ function resetBoard() {
     [cartaGirata, bloccaBoard] = [false, false];
     [primaCarta, secondaCarta] = [null, null];
 }
+
+(function mischia () {
+    carte.forEach(carta => {
+        const posizioneCasuale = Math.floor(Math.random() * 12);
+        carta.style.order = posizioneCasuale;
+
+    })
+})();
     
 carte.forEach(carta => carta.addEventListener('click', giraCarta));
 
