@@ -4,9 +4,12 @@ const giocaDiNuovo = modale.querySelector('.giocaDiNuovo');
 
 let cartaGirata = false;
 let bloccaBoard = false;
+let timerPartita = null;
+let tempo = null;
 let primaCarta, secondaCarta;
 
 function giraCarta() {
+    if(!timerPartita) avviaPartita();
     if(bloccaBoard) return;
     if(this === primaCarta) return;
     this.classList.add('flip');
@@ -65,7 +68,29 @@ function carteTerminate() {
         party.addConfetti();
         modale.removeAttribute('hidden');
         body.classList.add("vittoria");
+        clearInterval(timerPartita);
+        salvaPartita();
     }
+}
+
+function avviaPartita() {
+    const secondiHtml = document.querySelector('.timer__secondi');
+    const minutiHtml = document.querySelector('.timer__minuti');
+    const iniziaPartita = Date.now();
+    timerPartita = setInterval(() => {
+        const ora = Date.now();
+        const tempoPassato = ora - iniziaPartita;
+        tempo = new Date(tempoPassato);
+        secondiHtml.innerText = `${tempo.getSeconds() < 10 ? '0' + tempo.getSeconds() : tempo.getSeconds()}`;
+        minutiHtml.innerText = `${tempo.getMinutes() < 10 ? '0' + tempo.getMinutes() : tempo.getMinutes()}`;
+    }, 1000);
+}
+
+function salvaPartita () {
+    const username = prompt('Che nome vuoi inserire in classifica?');
+    const classifica = JSON.parse(localStorage.getItem("classifica")) || [];
+    classifica.push({username: username, tempo: new Intl.DateTimeFormat('it-IT', {minute: 'numeric', second: 'numeric'}).format(tempo)});
+    localStorage.setItem("classifica", JSON.stringify(classifica));
 }
 
 (function mischia () {
