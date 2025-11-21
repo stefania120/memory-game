@@ -113,3 +113,45 @@ body.vittoria::after {
     display: inline-block;
     margin: 0 10px;
 }
+
+.classifica {
+    width: 360px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: -360px;
+    background-color: #bf9aca;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    transition:  all 0.3s ease;
+}
+
+.classifica button {
+    height: 36px;
+    transform: rotate(-90deg);
+    position: absolute;
+    top: 85px;
+    left: -85px;
+    padding:  0 16px;
+    border: 0;
+    background-color: #bf9aca;
+    color: #fff;
+    font-family: sans-serif;
+    font-weight: bold;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.classifica__container ul {
+    list-style: none;
+    font-family: sans-serif;
+}
+
+.classifica__container ul li {
+    padding: 20px 30px;
+    border-bottom:  1px solid #fff;
+    transition:  all 2s ease;
+}
+
+.classifica__container ul li:hover {
+    background-color: #bf9aca;
+}

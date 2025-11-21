@@ -1,6 +1,8 @@
 const carte = document.querySelectorAll('.carta');
 const modale = document.querySelector('modal');
 const giocaDiNuovo = modale.querySelector('.giocaDiNuovo');
+const toggleClassifica = document.querySelector('.classifica button');
+console.log(toggleClassifica);
 
 let cartaGirata = false;
 let bloccaBoard = false;
@@ -93,13 +95,52 @@ function salvaPartita () {
     localStorage.setItem("classifica", JSON.stringify(classifica));
 }
 
+function mostraClassifica () {
+    const classificaContainer = this.parentElement;
+    if(classificaContainer.classList.contains('aperta')) {
+        classificaContainer.style.right = '-360px';
+        classificaContainer.classList.remove('aperta');
+    } else {
+        classificaContainer.style.right = 0;
+        classificaContainer.classList.add('aperta');
+    }
+}
+
+function ordinaClassifica (a,b) {
+    const tempoA = a.tempo.split(':');
+    const tempoB = b.tempo.split(':');
+    const [minutiA, minutiB]= [tempoA[0], tempoB[0]];
+    const [secondiA, secondiB]= [tempoA[1], tempoB[1]];
+    const dataA = new Date(0);
+    dataA.setSeconds(secondiA);
+    dataA.setMinutes(minutiA);
+    const dataB = new Date(0);
+    dataB.setSeconds(secondiB);
+    dataB.setMinutes(minutiB);
+    return dataA > dataB ? 1 : -1;
+}
+
 (function mischia () {
+    // Mischia le carte
     carte.forEach(carta => {
         const posizioneCasuale = Math.floor(Math.random() * 12);
         carta.style.order = posizioneCasuale;
 
     })
+
+    // Popola classifica
+    const classificaContainer = document.querySelector('.classifica__container');
+    const classifica = JSON.parse(localStorage.getItem('classifica')) ||[];
+    if(classifica || classifica.length > 0){
+        classifica.sort(ordinaClassifica);
+        classificaContainer.innerHTML += `<ul>` + classifica.map((record, indice) => {
+            return `<li>#${indice+1} ${record.username} - ${record.tempo}`;
+        }).join("") + `</ul>`;
+    }
+
 })();
     
 carte.forEach(carta => carta.addEventListener('click', giraCarta));
 giocaDiNuovo.addEventListener('click', () => location.reload());
+
+toggleClassifica.addEventListener('click', mostraClassifica);
